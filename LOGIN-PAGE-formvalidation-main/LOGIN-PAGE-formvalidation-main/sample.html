@@ -150,18 +150,36 @@
                 showAlert("User already exists. Try with different email", "no")
                 emailInput.textContent = ""
                 emailInput.value = ""
+                emailValue = ""
                 passwordInput.textContent = ""
-                passwordInput.value = ""
+                passwordValue = ""
             }
             else {
-                if (passwordValue.length > 5) {
+
+                if (passRegex.test(passwordValue) && emailRegex.test(emailValue)) {
                     users.push({ email: emailValue, password: passwordValue })
                     showAlert("Successfully Registered the new user", "yes")
                     setTimeout(back, 2000);
                 }
-                else {
+                else if (passwordValue=="" && emailValue=="") {
+                    emailInput.classList.add('invalid');
+                    emailError.textContent = 'Email should not be empty';
+                    passwordInput.classList.add('invalid');
+                    passwordError.textContent = 'Password should not be empty';
+                }
+                else if (!passRegex.test(passwordValue) && !emailRegex.test(emailValue)) {
+                    emailInput.classList.add('invalid');
+                    emailError.textContent = 'Email should not be empty';
                     passwordInput.classList.add('invalid');
                     passwordError.textContent = 'Password does not meet the criteria';
+                }
+                else if (!passRegex.test(passwordValue)) {
+                    passwordInput.classList.add('invalid');
+                    passwordError.textContent = 'Password does not meet the criteria';
+                }
+                else if (!emailRegex.test(emailValue)) {
+                    emailInput.classList.add('invalid');
+                    emailError.textContent = 'Email should not be empty';
                 }
             }
         }
@@ -255,7 +273,7 @@
                     window.location.href = 'login.html';
                 }
             };
-            req.open("GET", "https://random-data-api.com/api/v2/users?size=2&is_xml=true", true);
+            req.open("GET", "https://random-data-api.com/api/v2/users?size=100", true);
             req.send();
         }
 

@@ -20,12 +20,17 @@
         h3{
             text-align: center;
         }
+        .clearAllBtn{
+            float: right;
+        }
     </style>
 </head>
 
 <body>
     <div id="table-container">
         <h3>TABLE</h3>
+        <button class="clearAllBtn" onclick="clearFields()">Clear All</button>
+        
         <table>
             <thead>
                 <tr>
@@ -68,7 +73,9 @@
             }
             tableBody.appendChild(row);
         });
-
+        function clearFields(){
+           localStorage.clear();
+        }
     </script>
 </body>
 
