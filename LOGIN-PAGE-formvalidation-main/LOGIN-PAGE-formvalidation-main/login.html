@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Page</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding:5px;
+            text-align: center;
+        }
+        table{
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>EMAIL</th>
+                    <th>PASSWORD</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let storedData;
+        if (localStorage.getItem('responsekey')) {
+            storedData = JSON.parse(localStorage.getItem('responsekey'));
+        }
+
+        const tableBody = document.getElementById('table-body');
+        for (let item of storedData) {
+            const row = document.createElement('tr')
+            const idCell = document.createElement('td')
+            idCell.textContent = item.id;
+            const uidCell = document.createElement('td')
+            uidCell.textContent = item.email;
+            const passCell = document.createElement('td')
+            passCell.textContent = item.password;
+
+            row.appendChild(idCell)
+            row.appendChild(uidCell)
+            row.appendChild(passCell)
+
+            tableBody.appendChild(row);
+        }
+        function saveData(data){
+            localStorage.setItem('responsekey',JSON.stringify(data));
+        }
+        const jsondata=storedData;
+        function handleChanges(event,index,key){
+            
+        }
+
+    </script>
+</body>
+
+</html>

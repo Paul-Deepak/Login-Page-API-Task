@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login Page</title>
+</head>
+
+<body>
+
+    <div id="alertbox" class="alert-box">
+        <button class="closebtn" id="closebtn" onclick="closealert()">X</button>
+        <br>
+        <span id="alert-text"></span>
+    </div>
+    <div id="alertbox2" class="alert-box">
+        <button class="closebtn" id="closebtn1" onclick="closealert1()">X</button>
+        <br>
+        <span id="alert-text">Do you want to register as new user?</span>
+        <div class="buttons">
+            <button id="Yesbtn" onclick="newUser()">Yes</button><button id="Nobtn" onclick="cancelUser()">No</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="leftcontainer">
+            <img src="image.png" alt="sampleimg">
+        </div>
+        <div class="rightcontainer">
+            <form action="login.html" method="post" id="loginvalform">
+                <h1> Hey, hello &#9995; </h1>
+                <p id="subheader"> Enter the information you entered while registering </p>
+                <div class="mail">
+                    <div class="loginside">
+                        <label for="email"><b>Email</b></label><br>
+                        <input type="email" name="email" class="textbox" id="mailid" oninput="inputEmail(event)"
+                            onkeydown="classRemoverEmail()"><br>
+                        <span id="mailerror" class="error"></span>
+                        <br>
+                        <label for="psw"><b>Password</b></label><br>
+                        <input type="password" name="psw" class="textbox" id="pwd" oninput="inputPass(event)"
+                            onkeydown="classRemoverPass()"> <br><span id="passerror" class="error"></span> <br>
+                        <span id="info" onclick="removeinfo()">i</span>&nbsp;
+                        <span id="passwordcriteria">Your password must be atleast 6 characters long and must contain 1
+                            capital letter,1 special character in it.</span>
+                        <br>
+                        <br>
+                        <input type="checkbox" name="chkbox">
+                        <label for="chkbox"><b>Remember me</b></label>
+                        <a href="#" class="fpass">Forgot password?</a><br>
+                        <button type="submit" class="button1" id="submitbtn" onclick="login(event)">SUBMIT</button><br>
+                        <button type="button" class="button2" id="signupbtn" onclick="signup()">SIGN UP</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+
+        const users = [{ email: "paul@gmail.com", password: "Paul@123" }];
+
+        let flag1 = 0;
+        let flag2 = 0;
+
+        let emailInput = document.getElementById("mailid");
+        let passwordInput = document.getElementById("pwd");
+        let emailValue = "";
+        let passwordValue = "";
+        let emailError = document.getElementById("mailerror");
+        let passwordError = document.getElementById("passerror")
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}]).{6,}$/;
+
+        function inputEmail(event) {
+            emailValue = event.target.value;
+        }
+
+        function inputPass(event) {
+            passwordValue = event.target.value;
+        }
+
+
+        function login(event) {
+            event.preventDefault()
+            let registerUser = event.target
+            if (registerUser.innerHTML == "REGISTER") {
+                registerNew(event)
+                return;
+            }
+
+            if (emailRegex.test(emailValue)) {
+                emailInput.classList.remove('invalid');
+                emailError.textContent = '';
+                flag1 = 0;
+            }
+            else {
+                emailInput.classList.add('invalid');
+                emailError.textContent = 'Please enter a valid email address';
+                flag1 = 1;
+            }
+
+            if (passRegex.test(passwordValue)) {
+                passwordInput.classList.remove('invalid');
+                passwordError.textContent = '';
+                flag2 = 0;
+
+            } else {
+                passwordInput.classList.add('invalid');
+                passwordError.textContent = 'Password does not meet the criteria';
+                flag2 = 1;
+            }
+
+            if (emailValue == "") {
+                emailInput.classList.add('invalid');
+                emailError.textContent = 'Email should not be empty';
+                flag1 = 1;
+            }
+            if (passwordValue == "") {
+                passwordInput.classList.add('invalid');
+                passwordError.textContent = 'Password should not be empty';
+                flag2 = 1;
+            }
+            const existingUser = users.find(a => a.email === emailValue);
+            if (flag1 == 0 && flag2 == 0) {
+                if (existingUser) {
+                    if (existingUser.password === passwordValue) {
+                        showAlert("Login Successful", "yes")
+                        sendreq()
+                        passwordInput.value = ""
+                        emailInput.value = ""
+                        inputEmail(event)
+                        inputPass(event)
+                    }
+                    else {
+                        showAlert("Incorrect password", "no")
+                        passwordInput.textContent = ''
+                        passwordInput.value = ''
+                    }
+                }
+                else {
+                    showAlertNew("User not found, Do you want to Register as a new User")
+                }
+            }
+        }
+
+        function registerNew(event) {
+            const existingUser = users.find(a => a.email === emailValue);
+            if (existingUser) {
+                showAlert("User already exists. Try with different email", "no")
+                emailInput.textContent = ""
+                emailInput.value = ""
+                passwordInput.textContent = ""
+                passwordInput.value = ""
+            }
+            else {
+                if (passwordValue.length > 5) {
+                    users.push({ email: emailValue, password: passwordValue })
+                    showAlert("Successfully Registered the new user", "yes")
+                    setTimeout(back, 2000);
+                }
+                else {
+                    passwordInput.classList.add('invalid');
+                    passwordError.textContent = 'Password does not meet the criteria';
+                }
+            }
+        }
+        function signup() {
+            let b = document.getElementById("signupbtn")
+            if (b.innerHTML == "SIGN UP") {
+                newUser()
+            }
+            else if (b.innerHTML == "LOG IN") {
+                back();
+            }
+        }
+        function newUser() {
+            const subheader = document.getElementById('subheader');
+            subheader.textContent = "REGISTRATION FORM"
+            document.getElementById("alertbox2").style.display = "none"
+            document.getElementById("submitbtn").innerHTML = "REGISTER"
+            document.getElementById("signupbtn").innerHTML = "LOG IN"
+            passwordInput.value = ''
+        }
+
+        function back() {
+            let submitbutton = document.getElementById("submitbtn")
+            let subheader = document.getElementById('subheader');
+            subheader.textContent = "Enter the details you entered while registering"
+            document.getElementById("submitbtn").innerHTML = "SUBMIT"
+            document.getElementById("signupbtn").innerHTML = "SIGN UP"
+        }
+
+        function showAlert(textmsg, status) {
+            const alertbox = document.getElementById("alertbox")
+            const alertmsg = document.getElementById("alert-text")
+            alertmsg.textContent = textmsg;
+            if (status == "yes") {
+                alertbox.classList.remove("fail")
+                alertbox.classList.add("pass")
+            }
+            else if (status == "no") {
+                alertbox.classList.remove("pass")
+                alertbox.classList.add("fail")
+            }
+            alertbox.style.display = "block";
+        }
+
+        function removeinfo() {
+            let a = document.getElementById("passwordcriteria")
+            if (a.style.visibility == "hidden") {
+                a.style.visibility = "visible"
+            }
+            else {
+                a.style.visibility = "hidden"
+            }
+        }
+
+        function showAlertNew(textmsg) {
+            const alertbox = document.getElementById("alertbox2")
+            const alertmsg = document.getElementById("alert-text")
+            alertmsg.textContent = textmsg;
+            alertbox.classList.remove("pass")
+            alertbox.classList.add("fail")
+            alertbox.style.display = "block";
+        }
+
+        function closealert() {
+            document.getElementById("alertbox").style.display = "none";
+        }
+
+        function closealert1() {
+            document.getElementById("alertbox2").style.display = "none";
+        }
+
+        function classRemoverEmail() {
+            emailInput.classList.remove('invalid');
+            emailError.textContent = ''
+        }
+
+        function classRemoverPass() {
+            passwordInput.classList.remove('invalid');
+            passwordError.textContent = ''
+        }
+        function cancelUser() {
+            let alertbox = document.getElementById("alertbox2");
+            alertbox.style.display = "none";
+        }
+        function sendreq() {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = this.responseText;
+                    localStorage.setItem('responsekey', response);
+                    window.location.href = 'login.html';
+                }
+            };
+            req.open("GET", "https://random-data-api.com/api/v2/users?size=2&is_xml=true", true);
+            req.send();
+        }
+
+    </script>
+</body>
+
+</html>
