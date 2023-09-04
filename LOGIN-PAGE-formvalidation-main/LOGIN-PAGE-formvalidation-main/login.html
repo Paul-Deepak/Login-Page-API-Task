@@ -38,6 +38,7 @@
                     <th>PASSWORD</th>
                     <th>NAME</th>
                     <th>EMAIL</th>
+                    <th>OPTIONS</th>
                 </tr>
             </thead>
             <tbody id="table-body">
@@ -60,22 +61,55 @@
         }
 
         storedData.forEach((item,index) => {
+            let i=0;
             const row=document.createElement('tr');
+            let f=0;
             for(const key in item){
                 if(key=='id'||key=='username'||key=='email'||key=='password'){
                 const cell=document.createElement('td');
                 cell.textContent=item[key];
-                cell.setAttribute('contenteditable','true');
-                cell.addEventListener('input',(event) => 
-                    saveData(event,index,key));
-                    row.appendChild(cell);
-                }
+                row.appendChild(cell);
             }
+            }
+            let newCell=row.insertCell(4)
             tableBody.appendChild(row);
+            let btn1=document.createElement('button');
+            let btn2=document.createElement('button');
+            btn1.textContent="EDIT"
+            btn2.textContent="DELETE"
+            newCell.appendChild(btn1)
+            newCell.appendChild(btn2)
+            btn1.addEventListener("click",(event) => {
+                rowEdit(event,index)
+                saveData(event,index,key)
+            })
+            btn2.addEventListener("click",(event) => {
+                rowDelete(event,index)
+                saveData(event,index,key)
+            })
+        
         });
-        function clearFields(){
-           localStorage.clear();
+
+        function rowDelete(event,index){
+            const clickedElement=event.target;
+            const row=clickedElement.closest('tr');
+            const delIndex=Array.from(tableBody.children).indexOf(row);
+            tableBody.deleteRow(delIndex)
         }
+        function rowEdit(event,index){
+            const clickedElement=event.target;
+            const row=clickedElement.closest('tr');
+            const EditIndex=Array.from(tableBody.children).indexOf(row);
+            
+            row.setAttribute('contenteditable','true');
+            row.addEventListener('input',(event) => 
+                saveData(event,index,key));
+        }
+
+        
+        // function clearFields(){
+        //    localStorage.clear();
+        // }
     </script>
 </body>
 
