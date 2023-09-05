@@ -36,43 +36,58 @@
     </div>
     <script>
         let storedData;
-        if (localStorage.getItem('responsekey')) {
-            storedData = JSON.parse(localStorage.getItem('responsekey'));
-        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            if (!localStorage.getItem('responsekey')) {
+
+                sendreq()
+                    .then(data => {
+                        localStorage.setItem('responsekey', JSON.stringify(data));
+                        storedData = data;
+                        fillTable(storedData);
+                    })
+
+            } else {
+                storedData = JSON.parse(localStorage.getItem('responsekey'));
+                fillTable(storedData);
+            }
+        });
 
         const tableBody = document.getElementById('table-body');
+        function fillTable(storedData) {
+            storedData.forEach((item, index) => {
 
-        storedData.forEach((item, index) => {
+                const row = document.createElement('tr');
 
-            const row = document.createElement('tr');
-
-            for (const key in item) {
-                if (key == 'id' || key == 'username' || key == 'email' || key == 'password') {
-                    const cell = document.createElement('td');
-                    cell.textContent = item[key];
-                    row.appendChild(cell);
+                for (const key in item) {
+                    if (key == 'id' || key == 'username' || key == 'email' || key == 'password') {
+                        const cell = document.createElement('td');
+                        cell.textContent = item[key];
+                        row.appendChild(cell);
+                    }
                 }
-            }
-            let newCell = row.insertCell(4)
-            tableBody.appendChild(row);
-            let btn1 = document.createElement('button');
-            let btn2 = document.createElement('button');
-            btn1.textContent = "Edit"
-            btn1.className="editbtn"
-            btn2.textContent = "Delete"
-            btn2.className="deletebtn"
-            newCell.appendChild(btn1)
-            newCell.appendChild(btn2)
-            btn1.addEventListener("click", (event) => {
-                rowEdit(event)
-                // saveData(event,index,key)
-            })
-            btn2.addEventListener("click", (event) => {
-                rowDelete(event)
-                // saveData(event,index,key)
-            })
+                let newCell = row.insertCell(4)
+                tableBody.appendChild(row);
+                let btn1 = document.createElement('button');
+                let btn2 = document.createElement('button');
+                btn1.textContent = "Edit"
+                btn1.className = "editbtn"
+                btn2.textContent = "Delete"
+                btn2.className = "deletebtn"
+                newCell.appendChild(btn1)
+                newCell.appendChild(btn2)
+                btn1.addEventListener("click", (event) => {
+                    rowEdit(event)
+                    // saveData(event,index,key)
+                })
+                btn2.addEventListener("click", (event) => {
+                    rowDelete(event)
+                    // saveData(event,index,key)
+                })
 
-        });
+            });
+        }
 
         function rowDelete(event) {
             const clickedElement = event.target;
@@ -108,9 +123,8 @@
             localStorage.clear();
             storedData = ""
             tableBody.innerHTML = ""
-            document.getElementById("msg").style.display="block"
+            document.getElementById("msg").style.display = "block"
         }
-        
 
         function saveData(ind, key, newValue) {
             // // const newValue=event.target.textContent;
