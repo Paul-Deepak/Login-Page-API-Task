@@ -1,0 +1,88 @@
+body{
+    margin: 0px;
+    background-color: rgb(237, 232, 232);
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+.container{
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+#table-container{
+    margin: 20px;
+}
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    box-shadow: 1px 1px 20px 1px;
+    background-color: rgba(209, 214, 243, 0.774);
+}
+#table-container tr:nth-child(even){background-color: #e7eaf7;}
+
+#table-container tr:hover {background-color: #aeb1edec;}
+
+th{
+    background-color: rgba(31, 15, 153, 0.831);
+    width: 50px;
+    color: aliceblue;
+}
+thead{
+    height: 50px;
+}
+h3 {
+    margin: 0px;
+    margin-top: 20px;
+    text-align: center;
+    color: rgba(31, 15, 153, 0.831);
+
+}
+
+.clearAllBtn {
+    float: right;
+    height: 30px;
+    background-color: rgb(0, 140, 255);
+    color: aliceblue;
+    cursor: pointer;
+}
+.editbtn{
+    margin-right: 5px;
+    cursor: pointer;
+    color: rgba(14, 14, 209, 0.918);
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    border: solid 1px rgb(9, 9, 132);
+}
+.deletebtn{
+    margin-left: 5px;
+    color: rgba(14, 14, 209, 0.918);
+    cursor: pointer;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    border: solid 1px rgb(9, 9, 132);
+    
+}
+.deletebtn:hover , .editbtn:hover{
+    background-color: rgba(14, 14, 209, 0.918);
+    color: aliceblue;
+}
+#msg{
+    position: fixed;
+    display: none;
+    z-index: 1;
+    left: calc(50% - 20px);
+    top: 50%;
+    height: 50px;
+    width: 300px;
+}
+.msg-text{
+    color: blue;
+    font-size: larger;
+}

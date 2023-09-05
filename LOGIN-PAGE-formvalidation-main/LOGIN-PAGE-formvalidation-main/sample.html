@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="redirect.js"></script>
     <title>Login Page</title>
 </head>
 
@@ -127,6 +128,7 @@
                     if (existingUser.password === passwordValue) {
                         showAlert("Login Successful", "yes")
                         sendreq()
+                        window.location.href = 'login.html';
                         passwordInput.value = ""
                         emailInput.value = ""
                         inputEmail(event)
@@ -264,18 +266,18 @@
             let alertbox = document.getElementById("alertbox2");
             alertbox.style.display = "none";
         }
-        function sendreq() {
-            let req = new XMLHttpRequest();
-            req.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    let response = this.responseText;
-                    localStorage.setItem('responsekey', response);
-                    window.location.href = 'login.html';
-                }
-            };
-            req.open("GET", "https://random-data-api.com/api/v2/users?size=100", true);
-            req.send();
-        }
+        // function sendreq() {
+        //     let req = new XMLHttpRequest();
+        //     req.onreadystatechange = function () {
+        //         if (this.readyState == 4 && this.status == 200) {
+        //             let response = this.responseText;
+        //             localStorage.setItem('responsekey', response);
+        //             window.location.href = 'login.html';
+        //         }
+        //     };
+        //     req.open("GET", "https://random-data-api.com/api/v2/users?size=100", true);
+        //     req.send();
+        // }
 
     </script>
 </body>
