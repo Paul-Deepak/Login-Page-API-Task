@@ -127,7 +127,7 @@
                 if (existingUser) {
                     if (existingUser.password === passwordValue) {
                         showAlert("Login Successful", "yes")
-                        setTimeout(sendreq,500)
+                        setTimeout(sendreq, 500)
                         window.location.href = 'login.html';
                         passwordInput.value = ""
                         emailInput.value = ""
@@ -163,7 +163,7 @@
                     showAlert("Successfully Registered the new user", "yes")
                     setTimeout(back, 2000);
                 }
-                else if (passwordValue=="" && emailValue=="") {
+                else if (passwordValue == "" && emailValue == "") {
                     emailInput.classList.add('invalid');
                     emailError.textContent = 'Email should not be empty';
                     passwordInput.classList.add('invalid');

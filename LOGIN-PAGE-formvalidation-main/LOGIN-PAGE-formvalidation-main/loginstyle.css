@@ -1,18 +1,21 @@
-body{
+body {
     margin: 0px;
     background-color: rgb(237, 232, 232);
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }
-.container{
+
+.container {
     margin: 0px;
     height: 100%;
     width: 100%;
 }
-#table-container{
+
+#table-container {
     margin: 20px;
     height: 500px;
     overflow-y: auto;
 }
+
 table,
 th,
 td {
@@ -27,18 +30,27 @@ table {
     box-shadow: 1px 1px 10px 1px;
     background-color: rgba(209, 214, 243, 0.774);
 }
-#table-container tr{background-color: white;}
 
-#table-container tr:hover {background-color: #aeb1edec;}
+#table-container tr {
+    background-color: white;
+}
 
-th{
+#table-container tr:hover {
+    background-color: #aeb1edec;
+}
+
+th {
     background-color: rgba(31, 15, 153, 0.831);
     width: 50px;
     color: aliceblue;
 }
-thead{
+
+thead {
     height: 50px;
+    position: sticky;
+    top: 0;
 }
+
 h3 {
     margin: 0px;
     margin-top: 20px;
@@ -54,7 +66,8 @@ h3 {
     color: aliceblue;
     cursor: pointer;
 }
-.editbtn{
+
+.editbtn {
     margin-right: 5px;
     cursor: pointer;
     color: rgba(14, 14, 209, 0.918);
@@ -62,20 +75,24 @@ h3 {
     font-family: Arial, Helvetica, sans-serif;
     border: solid 1px rgb(9, 9, 132);
 }
-.deletebtn{
+
+.deletebtn {
     margin-left: 5px;
     color: rgba(14, 14, 209, 0.918);
     cursor: pointer;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     border: solid 1px rgb(9, 9, 132);
-    
+
 }
-.deletebtn:hover , .editbtn:hover{
+
+.deletebtn:hover,
+.editbtn:hover {
     background-color: rgba(14, 14, 209, 0.918);
     color: aliceblue;
 }
-#msg{
+
+#msg {
     position: fixed;
     display: none;
     z-index: 1;
@@ -84,7 +101,8 @@ h3 {
     height: 50px;
     width: 300px;
 }
-#loadingmsg{
+
+#loadingmsg {
     position: fixed;
     display: none;
     z-index: 1;
@@ -93,7 +111,8 @@ h3 {
     height: 50px;
     width: 300px;
 }
-.msg-text{
+
+.msg-text {
     color: blue;
     font-size: larger;
 }

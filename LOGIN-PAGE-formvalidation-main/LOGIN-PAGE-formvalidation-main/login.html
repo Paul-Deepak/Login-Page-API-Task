@@ -15,14 +15,14 @@
 
 <body>
 
-        <span class="msg-text" id="msg">NO DATA FOUND</span>
-        <span class="msg-text" id="loadingmsg">Loading...</span>
+    <span class="msg-text" id="msg">NO DATA FOUND</span>
+    <span class="msg-text" id="loadingmsg">Loading...</span>
 
     <div class="container">
         <h3>TABLE</h3>
         <button class="clearAllBtn" onclick="clearFields()">CLEAR ALL</button>
         <button class="logOutBtn" onclick="logOut()">LOG OUT</button>
-        
+
         <div id="table-container">
             <table>
                 <thead>
@@ -44,25 +44,25 @@
         let storedData;
 
         document.addEventListener('DOMContentLoaded', () => {
-            let loadingMsg=document.getElementById('loadingmsg')
-            loadingMsg.style.display="block";
+            let loadingMsg = document.getElementById('loadingmsg')
+            loadingMsg.style.display = "block";
             if (!localStorage.getItem('responsekey')) {
-                
+
                 sendRequest()
                     .then(data => {
                         localStorage.setItem('responsekey', JSON.stringify(data));
                         storedData = data;
                         fillTable(storedData);
-                        loadingMsg.style.display="none";
+                        loadingMsg.style.display = "none";
                     })
-                    
-                } else {
-                    storedData = JSON.parse(localStorage.getItem('responsekey'));
-                    fillTable(storedData);
-                    loadingMsg.style.display="none";
+
+            } else {
+                storedData = JSON.parse(localStorage.getItem('responsekey'));
+                fillTable(storedData);
+                loadingMsg.style.display = "none";
             }
         });
-      
+
 
         const tableBody = document.getElementById('table-body');
         function fillTable(storedData) {
@@ -89,7 +89,6 @@
                 newCell.appendChild(btn2)
                 btn1.addEventListener("click", (event) => {
                     rowEdit(event)
-
                 })
                 btn2.addEventListener("click", (event) => {
                     rowDelete(event)
@@ -102,36 +101,60 @@
             const clickedElement = event.target;
             const row = clickedElement.closest('tr');
             const delIndex = Array.from(tableBody.children).indexOf(row);
-            tableBody.deleteRow(delIndex)
-            storedData.splice(delIndex, 1)
-            localStorage.setItem('responsekey', JSON.stringify(storedData));
+            const cells = row.querySelectorAll('td');
+            const nextbtn = clickedElement.previousElementSibling;
+            if (clickedElement.innerHTML == 'Cancel') {
+                clickedElement.innerHTML = "Delete"
+                row.style.backgroundColor = "white"
+                nextbtn.innerHTML = "Edit"
+                for (let i = 1; i < cells.length - 1; i++) {
+                    cells[i].textContent = storedData[delIndex][Object.keys(arr[i])]
+                }
+            }
+            else {
+                tableBody.deleteRow(delIndex)
+                storedData.splice(delIndex, 1)
+                localStorage.setItem('responsekey', JSON.stringify(storedData));
+            }
         }
         const arr = [{ 'id': "" }, { 'password': "" }, { 'username': "" }, { 'email': "" }, { 'options': "" }]
 
         function rowEdit(event) {
             const clickedElement = event.target;
             const row = clickedElement.closest('tr');
+            const nextbtn = clickedElement.nextElementSibling;
+
             const cells = row.querySelectorAll('td');
             const Index = Array.from(tableBody.children).indexOf(row);
-            if(row.style.backgroundColor=="lightblue"){
-                for(let j=1;j<cells.length-1;j++)
-                cells[j].setAttribute('contenteditable','false')
-                row.style.backgroundColor="white"
+            let keys;
+            let newValue;
+            if (row.style.backgroundColor == "lightblue" && clickedElement.innerHTML == "Save") {
+                clickedElement.innerHTML = "Edit"
+                nextbtn.innerHTML = "Delete"
+
+                for (let j = 1; j < cells.length - 1; j++) {
+                    cells[j].setAttribute('contenteditable', 'false')
+                    storedData[Index][Object.keys(arr[j])] = cells[j].textContent
+                }
+                localStorage.setItem('responsekey', JSON.stringify(storedData));
+                row.style.backgroundColor = "white"
+
             }
-            else{
-            for (let i = 1; i < cells.length - 1; i++) {
-                cells[i].setAttribute('contenteditable', 'true');
-                cells[i].addEventListener('input', (event) => {
-                    console.log(i);
-                    const key = event.target.parentElement.parentElement.parentElement.children[0]
-                    const keys = Object.keys(arr[i]);
-                    console.log(keys)
-                    const newValue = event.target.textContent;
-                    saveData(Index, keys, newValue);
-                });
+            else {
+                clickedElement.innerHTML = "Save"
+                nextbtn.innerHTML = "Cancel"
+                row.style.backgroundColor = "lightblue";
+                for (let i = 1; i < cells.length - 1; i++) {
+                    cells[i].setAttribute('contenteditable', 'true');
+                    cells[i].addEventListener('input', (event) => {
+                        console.log(i);
+                        const key = event.target.parentElement.parentElement.parentElement.children[0]
+                        keys = Object.keys(arr[i]);
+                        console.log(keys)
+                        newValue = event.target.textContent;
+                    });
+                }
             }
-            row.style.backgroundColor="lightblue";
-        }
         }
 
 
@@ -146,8 +169,8 @@
             storedData[ind][key] = newValue;
             localStorage.setItem('responsekey', JSON.stringify(storedData));
         }
-        function logOut(){
-            window.location.href="sample.html";
+        function logOut() {
+            window.location.href = "sample.html";
         }
 
     </script>
