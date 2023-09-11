@@ -127,7 +127,7 @@
                 if (existingUser) {
                     if (existingUser.password === passwordValue) {
                         showAlert("Login Successful", "yes")
-                        sendreq()
+                        setTimeout(sendreq,500)
                         window.location.href = 'login.html';
                         passwordInput.value = ""
                         emailInput.value = ""

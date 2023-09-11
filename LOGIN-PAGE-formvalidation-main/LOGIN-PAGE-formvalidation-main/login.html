@@ -5,19 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect Page</title>
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+    </script>
     <script src="redirect.js"></script>
     <link rel="stylesheet" href="loginstyle.css">
 </head>
 
 <body>
-    <div id="msg">
-        <span class="msg-text">NO DATA FOUND</span>
-    </div>
-    <div class="container">
-        <div id="table-container">
-            <h3>TABLE</h3>
-            <button class="clearAllBtn" onclick="clearFields()">CLEAR ALL</button>
 
+        <span class="msg-text" id="msg">NO DATA FOUND</span>
+        <span class="msg-text" id="loadingmsg">Loading...</span>
+
+    <div class="container">
+        <h3>TABLE</h3>
+        <button class="clearAllBtn" onclick="clearFields()">CLEAR ALL</button>
+        <button class="logOutBtn" onclick="logOut()">LOG OUT</button>
+        
+        <div id="table-container">
             <table>
                 <thead>
                     <tr>
@@ -38,21 +44,25 @@
         let storedData;
 
         document.addEventListener('DOMContentLoaded', () => {
-
+            let loadingMsg=document.getElementById('loadingmsg')
+            loadingMsg.style.display="block";
             if (!localStorage.getItem('responsekey')) {
-
-                sendreq()
+                
+                sendRequest()
                     .then(data => {
                         localStorage.setItem('responsekey', JSON.stringify(data));
                         storedData = data;
                         fillTable(storedData);
+                        loadingMsg.style.display="none";
                     })
-
-            } else {
-                storedData = JSON.parse(localStorage.getItem('responsekey'));
-                fillTable(storedData);
+                    
+                } else {
+                    storedData = JSON.parse(localStorage.getItem('responsekey'));
+                    fillTable(storedData);
+                    loadingMsg.style.display="none";
             }
         });
+      
 
         const tableBody = document.getElementById('table-body');
         function fillTable(storedData) {
@@ -79,11 +89,10 @@
                 newCell.appendChild(btn2)
                 btn1.addEventListener("click", (event) => {
                     rowEdit(event)
-                    // saveData(event,index,key)
+
                 })
                 btn2.addEventListener("click", (event) => {
                     rowDelete(event)
-                    // saveData(event,index,key)
                 })
 
             });
@@ -98,12 +107,18 @@
             localStorage.setItem('responsekey', JSON.stringify(storedData));
         }
         const arr = [{ 'id': "" }, { 'password': "" }, { 'username': "" }, { 'email': "" }, { 'options': "" }]
+
         function rowEdit(event) {
             const clickedElement = event.target;
             const row = clickedElement.closest('tr');
             const cells = row.querySelectorAll('td');
             const Index = Array.from(tableBody.children).indexOf(row);
-
+            if(row.style.backgroundColor=="lightblue"){
+                for(let j=1;j<cells.length-1;j++)
+                cells[j].setAttribute('contenteditable','false')
+                row.style.backgroundColor="white"
+            }
+            else{
             for (let i = 1; i < cells.length - 1; i++) {
                 cells[i].setAttribute('contenteditable', 'true');
                 cells[i].addEventListener('input', (event) => {
@@ -115,11 +130,12 @@
                     saveData(Index, keys, newValue);
                 });
             }
+            row.style.backgroundColor="lightblue";
+        }
         }
 
 
         function clearFields() {
-            //    localStorage.removeItem('responsekey');
             localStorage.clear();
             storedData = ""
             tableBody.innerHTML = ""
@@ -127,9 +143,11 @@
         }
 
         function saveData(ind, key, newValue) {
-            // // const newValue=event.target.textContent;
             storedData[ind][key] = newValue;
             localStorage.setItem('responsekey', JSON.stringify(storedData));
+        }
+        function logOut(){
+            window.location.href="sample.html";
         }
 
     </script>

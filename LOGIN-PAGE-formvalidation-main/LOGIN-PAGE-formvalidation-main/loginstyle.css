@@ -10,6 +10,8 @@ body{
 }
 #table-container{
     margin: 20px;
+    height: 500px;
+    overflow-y: auto;
 }
 table,
 th,
@@ -22,10 +24,10 @@ td {
 
 table {
     width: 100%;
-    box-shadow: 1px 1px 20px 1px;
+    box-shadow: 1px 1px 10px 1px;
     background-color: rgba(209, 214, 243, 0.774);
 }
-#table-container tr:nth-child(even){background-color: #e7eaf7;}
+#table-container tr{background-color: white;}
 
 #table-container tr:hover {background-color: #aeb1edec;}
 
@@ -74,6 +76,15 @@ h3 {
     color: aliceblue;
 }
 #msg{
+    position: fixed;
+    display: none;
+    z-index: 1;
+    left: calc(50% - 20px);
+    top: 50%;
+    height: 50px;
+    width: 300px;
+}
+#loadingmsg{
     position: fixed;
     display: none;
     z-index: 1;
