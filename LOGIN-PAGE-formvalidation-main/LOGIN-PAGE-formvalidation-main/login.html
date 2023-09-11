@@ -170,6 +170,7 @@
             localStorage.setItem('responsekey', JSON.stringify(storedData));
         }
         function logOut() {
+            localStorage.clear();
             window.location.href = "sample.html";
         }
 
