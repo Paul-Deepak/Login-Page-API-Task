@@ -127,8 +127,7 @@
                 if (existingUser) {
                     if (existingUser.password === passwordValue) {
                         showAlert("Login Successful", "yes")
-                        setTimeout(sendreq, 500)
-                        window.location.href = 'login.html';
+                        window.location.href = 'index.html';
                         passwordInput.value = ""
                         emailInput.value = ""
                         inputEmail(event)
@@ -266,18 +265,6 @@
             let alertbox = document.getElementById("alertbox2");
             alertbox.style.display = "none";
         }
-        // function sendreq() {
-        //     let req = new XMLHttpRequest();
-        //     req.onreadystatechange = function () {
-        //         if (this.readyState == 4 && this.status == 200) {
-        //             let response = this.responseText;
-        //             localStorage.setItem('responsekey', response);
-        //             window.location.href = 'login.html';
-        //         }
-        //     };
-        //     req.open("GET", "https://random-data-api.com/api/v2/users?size=100", true);
-        //     req.send();
-        // }
 
     </script>
 </body>

@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect Page</title>
-    <script type="text/javascript">
-        function preventBack() { window.history.forward(); }
+    <script>
+        function preventBack() {
+            window.history.forward();
+        }
         setTimeout("preventBack()", 0);
     </script>
     <script src="redirect.js"></script>
-    <link rel="stylesheet" href="loginstyle.css">
+    <link rel="stylesheet" href="indexStyle.css">
 </head>
 
 <body>
-
     <span class="msg-text" id="msg">NO DATA FOUND</span>
     <span class="msg-text" id="loadingmsg">Loading...</span>
 
@@ -42,12 +43,10 @@
     </div>
     <script>
         let storedData;
-
         document.addEventListener('DOMContentLoaded', () => {
             let loadingMsg = document.getElementById('loadingmsg')
             loadingMsg.style.display = "block";
             if (!localStorage.getItem('responsekey')) {
-
                 sendRequest()
                     .then(data => {
                         localStorage.setItem('responsekey', JSON.stringify(data));
@@ -56,7 +55,8 @@
                         loadingMsg.style.display = "none";
                     })
 
-            } else {
+            }
+            else {
                 storedData = JSON.parse(localStorage.getItem('responsekey'));
                 fillTable(storedData);
                 loadingMsg.style.display = "none";
@@ -147,10 +147,8 @@
                 for (let i = 1; i < cells.length - 1; i++) {
                     cells[i].setAttribute('contenteditable', 'true');
                     cells[i].addEventListener('input', (event) => {
-                        console.log(i);
                         const key = event.target.parentElement.parentElement.parentElement.children[0]
                         keys = Object.keys(arr[i]);
-                        console.log(keys)
                         newValue = event.target.textContent;
                     });
                 }

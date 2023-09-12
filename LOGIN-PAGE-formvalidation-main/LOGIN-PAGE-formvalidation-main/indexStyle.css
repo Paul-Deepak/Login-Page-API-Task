@@ -45,6 +45,12 @@ th {
     color: aliceblue;
 }
 
+td{
+max-width: 100px;
+height: fit-content;
+word-wrap: break-word;
+}
+
 thead {
     height: 50px;
     position: sticky;

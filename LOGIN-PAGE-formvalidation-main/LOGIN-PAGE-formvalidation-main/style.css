@@ -17,7 +17,8 @@
     width: 50%;
     margin: 20px;
 }
-.loginside{
+
+.loginside {
     width: 450px;
 }
 
@@ -36,16 +37,19 @@
     border-radius: 10px;
     cursor: pointer;
 }
-#info{
-    color:orange;
-    border:solid 2px orange;
+
+#info {
+    color: orange;
+    border: solid 2px orange;
     border-radius: 50px;
     padding: 0px 5px;
     cursor: pointer;
 }
-#passwordcriteria{
+
+#passwordcriteria {
     font-size: 15px;
 }
+
 .button2 {
     background-color: rgb(228, 221, 234);
     border: none;
@@ -82,7 +86,8 @@
     color: red;
     font-size: 14px;
 }
-.alert-box{
+
+.alert-box {
     position: fixed;
     z-index: 1;
     display: flex;
@@ -91,23 +96,27 @@
     width: 200px;
     height: 100px;
     text-align: center;
-    top:20%;
+    top: 20%;
     left: 40%;
-    padding:10px;
+    padding: 10px;
     display: none;
     border: 1px solid;
 }
-.pass{
-    border: 2px solid green;     
+
+.pass {
+    border: 2px solid green;
 }
-.fail{
-    border: 2px solid red;    
+
+.fail {
+    border: 2px solid red;
 }
-.closebtn{
-    margin:0;
+
+.closebtn {
+    margin: 0;
     float: right;
 }
-.buttons{
+
+.buttons {
     display: flex;
     align-items: end;
     justify-content: space-evenly;
